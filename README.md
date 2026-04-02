@@ -47,7 +47,7 @@ Angelica Rodriguez - Computer Engineering Student
 
 // bro, hay que ponerlo bonito
 
-<h1 align="center">🌹 PROYECTO: EL PADRINO (SISTEMA DE SUCESIÓN)</h1>
+<h1 align="center">⚠️☠️🚨 PROYECTO: LA MAFIA ITALIANA (SISTEMA DE SUCESIÓN)⚠️☠️🚨</h1>
 
 <p align="center">
   <img src="https://img.shields.io/badge/ESTADO-CONFIDENCIAL-red?style=for-the-badge" />
@@ -65,8 +65,8 @@ Angelica Rodriguez - Computer Engineering Student
 
 <h3>👥 INTEGRANTES DEL CLAN</h3>
 <ul>
-  <li><b>Angélica Rodríguez</b> - <i>Diseño de Sistemas y Lógica</i></li>
-  <li><b>Rebecca Sarcos</b> - <i>Estructura de Datos y Algoritmos</i></li>
+  <li><b>Angélica Rodríguez</b> - <i> C.i: 32.220.574</i></li>
+  <li><b>Rebecca Saras</b> - <i> C.i:32.039.073</i></li>
 </ul>
 
 <hr>
