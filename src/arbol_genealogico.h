@@ -19,8 +19,8 @@ public:
     ArbolGenealogico();  // Constructor: pone la raíz en nullptr
     ~ArbolGenealogico(); // Destructor: borra todo para no dejar basura en la PC
 
-    // REQUISITOS DEL PROYECTO
-    void cargarDesdeCSV(string ruta);    // Punto 1: Carga y crea el árbol
+
+    void cargarDesdeCSV(string ruta);    // Carga y crea el árbol
     void insertar(Miembro* nuevo);        // Parte lógica del Punto 1
     void mostrarSucesion();               // Punto 2: Solo los vivos
     void gestionarSucesionAutomatica();   // Punto 3: La lógica pesada de herencia
