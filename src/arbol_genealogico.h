@@ -8,10 +8,9 @@
 
 class ArbolGenealogico {
 private:
-    Miembro* raiz; // El Don original (la base del árbol)
+    Miembro* raiz; // la base del árbol
 
-    // FUNCIONES PRIVADAS (Auxiliares para la recursión)
-    // Estas funciones ayudan a las públicas a navegar por los punteros
+    //Funciones auxiliares: navegan enetre punteros 
     void mostrarVivos(Miembro* nodo);
     Miembro* buscarPorId(Miembro* nodo, int id_buscar);
     void borrarArbol(Miembro* nodo); // Para limpiar la memoria al final
