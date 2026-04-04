@@ -1,8 +1,8 @@
 #ifndef ARBOL_GENEALOGICO_H
 #define ARBOL_GENEALOGICO_H
 
-#include "miembro_familia.h"
 #include <iostream>
+#include "./miembros.h"
 #include <fstream>
 #include <sstream>
 
