@@ -1,108 +1,115 @@
-#include "arbol.h"
+#include "tree.hpp"
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 
-// Constructor
-ArbolGenealogico::ArbolGenealogico() {
-    raiz = nullptr;
+Tree::Tree() : root(nullptr) {}
+
+Tree::~Tree() { deleteTree(root); }
+
+void Tree::deleteTree(Node* node) {
+    if (!node) return;
+    deleteTree(node->left);
+    deleteTree(node->right);
+    delete node;
 }
 
-// Destructor: Limpia la memoria al cerrar el programa
-ArbolGenealogico::~ArbolGenealogico() {
-    borrarArbol(raiz);
+Node* Tree::findById(Node* node, int id) {
+    if (!node || node->id == id) return node;
+    Node* found = findById(node->left, id);
+    if (found) return found;
+    return findById(node->right, id);
 }
 
-void ArbolGenealogico::borrarArbol(Nodo* nodo) {
-    if (nodo == nullptr) return;
-    borrarArbol(nodo->izq);
-    borrarArbol(nodo->der);
-    delete nodo;
-}
-
-// Buscar por ID (Ahora busca dentro del Nodo)
-Nodo* ArbolGenealogico::buscarPorId(Nodo* nodo, int id_buscar) {
-    if (nodo == nullptr || nodo->persona.id == id_buscar) return nodo;
-
-    Nodo* encontrado = buscarPorId(nodo->izq, id_buscar);
-    if (encontrado) return encontrado;
-
-    return buscarPorId(nodo->der, id_buscar);
-}
-
-// Insertar un miembro nuevo
-void ArbolGenealogico::insertar(Miembro nuevo_miembro) {
-    Nodo* nuevoNodo = new Nodo(nuevo_miembro);
-
-    if (raiz == nullptr) {
-        raiz = nuevoNodo;
-        return;
-    }
-
-    Nodo* jefe = buscarPorId(raiz, nuevo_miembro.id_padre);
-    if (jefe) {
-        if (jefe->izq == nullptr) jefe->izq = nuevoNodo;
-        else if (jefe->der == nullptr) jefe->der = nuevoNodo;
-        else cout << "Capacidad de sucesores llena para el ID: " << jefe->persona.id << endl;
+void Tree::insert(Node* newNode) {
+    if (!root) { root = newNode; return; }
+    Node* boss = findById(root, newNode->id_boss);
+    if (boss) {
+        newNode->parent = boss;
+        if (!boss->left) boss->left = newNode;
+        else if (!boss->right) boss->right = newNode;
     }
 }
 
-// Punto 2: Mostrar sucesión (Solo vivos)
-void ArbolGenealogico::mostrarSucesion() {
-    cout << "\n--- LINEA DE SUCESION (MIEMBROS VIVOS) ---" << endl;
-    mostrarVivos(raiz);
-}
-
-void ArbolGenealogico::mostrarVivos(Nodo* nodo) {
-    if (nodo == nullptr) return;
-    // Si muerto_vivo es 0 (asumiendo 0 = vivo, 1 = muerto)
-    if (nodo->persona.muerto_vivo == 0) { 
-        cout << "- " << nodo->persona.name << " " << nodo->persona.last_name 
-             << " [ID: " << nodo->persona.id << "]" << endl;
+void Tree::loadCSV(const string& filename) {
+    ifstream file(filename);
+    string line, val;
+    while (getline(file, line)) {
+        stringstream ss(line);
+        getline(ss, val, ','); int id = stoi(val);
+        Node* n = new Node(id);
+        getline(ss, n->name, ',');
+        getline(ss, n->last_name, ',');
+        getline(ss, val, ','); n->gender = val[0];
+        getline(ss, val, ','); n->age = stoi(val);
+        getline(ss, val, ','); n->id_boss = stoi(val);
+        getline(ss, val, ','); n->is_dead = (val == "1");
+        getline(ss, val, ','); n->in_jail = (val == "1");
+        getline(ss, val, ','); n->was_boss = (val == "1");
+        getline(ss, val, ','); n->is_boss = (val == "1");
+        insert(n);
     }
-    mostrarVivos(nodo->izq);
-    mostrarVivos(nodo->der);
 }
 
-// --- LO QUE FALTABA: PUNTO 3 (JUBILACIÓN 70 AÑOS) ---
-void ArbolGenealogico::gestionarSucesionAutomatica() {
-    cout << "\n--- VERIFICANDO JUBILACIONES (REGLA DE 70 ANOS) ---" << endl;
-    verificarSucesion70(raiz);
+bool Tree::isValid(Node* node, bool allowJail) {
+    if (!node || node->is_dead) return false;
+    if (!allowJail && node->in_jail) return false;
+    return true;
 }
 
-void ArbolGenealogico::verificarSucesion70(Nodo* nodo) {
-    if (nodo == nullptr) return;
+Node* Tree::findInSubtree(Node* node, bool allowJail) {
+    if (!node) return nullptr;
+    if (isValid(node, allowJail)) return node;
+    Node* res = findInSubtree(node->left, allowJail);
+    if (res) return res;
+    return findInSubtree(node->right, allowJail);
+}
 
-    if (nodo->persona.edad >= 70) {
-        cout << "! Alerta: " << nodo->persona.name << " tiene " << nodo->persona.edad 
-             << " anos. Debe entregar el mando." << endl;
+Node* Tree::findCurrentBoss(Node* node) {
+    if (!node) return nullptr;
+    if (node->is_boss) return node;
+    Node* found = findCurrentBoss(node->left);
+    if (found) return found;
+    return findCurrentBoss(node->right);
+}
+
+void Tree::updateBoss() {
+    Node* boss = findCurrentBoss(root);
+    if (!boss) return;
+
+    if (boss->is_dead || boss->in_jail || boss->age > 70) {
+        Node* replacement = nullptr;
+        replacement = findInSubtree(boss->left, false);
+        if (!replacement) replacement = findInSubtree(boss->right, false);
         
-        if (nodo->izq) cout << "  > Sucesor sugerido (Primogenito): " << nodo->izq->persona.name << endl;
-        else if (nodo->der) cout << "  > Sucesor sugerido (Segundo): " << nodo->der->persona.name << endl;
-        else cout << "  > No tiene herederos directos." << endl;
-    }
+        if (!replacement) replacement = findInSubtree(boss, true);
 
-    verificarSucesion70(nodo->izq);
-    verificarSucesion70(nodo->der);
-}
-
-// --- LO QUE FALTABA: PUNTO 4 (MODIFICAR DATOS) ---
-void ArbolGenealogico::modificarDatos(int id_target) {
-    Nodo* objetivo = buscarPorId(raiz, id_target);
-    
-    if (objetivo) {
-        cout << "Modificando a: " << objetivo->persona.name << endl;
-        cout << "Nuevo nombre: "; cin >> objetivo->persona.name;
-        cout << "Nueva edad: "; cin >> objetivo->persona.edad;
-        cout << "Estado (0-Vivo, 1-Muerto, 2-Preso): "; cin >> objetivo->persona.muerto_vivo;
-        cout << "Datos actualizados correctamente." << endl;
-    } else {
-        cout << "Error: No se encontro el miembro con ID " << id_target << endl;
+        if (replacement) {
+            boss->is_boss = false;
+            boss->was_boss = true;
+            replacement->is_boss = true;
+            cout << "\n[!] SUCCESSION: " << replacement->name << " is the new Boss.\n";
+        }
     }
 }
 
-// Función para Rebecca (Cargar desde CSV) - Ella debe completar la lógica del archivo
-void ArbolGenealogico::cargarDesdeCSV(string ruta) {
-    cout << "Intentando cargar archivo: " << ruta << "..." << endl;
-    // Rebecca usara ifstream aqui para leer linea por linea e invocar a insertar()
+void Tree::editNode(int id) {
+    Node* target = findById(root, id);
+    if (!target) { cout << "Member not found.\n"; return; }
+    cout << "Editing " << target->name << ". New age: ";
+    cin >> target->age;
+    cout << "Is dead (0/1): "; cin >> target->is_dead;
+    cout << "In jail (0/1): "; cin >> target->in_jail;
+    updateBoss(); 
 }
+
+void Tree::showSuccession(Node* node) {
+    if (!node) return;
+    if (!node->is_dead) cout << "- " << node->name << " " << node->last_name << (node->is_boss ? " [BOSS]" : "") << endl;
+    showSuccession(node->left);
+    showSuccession(node->right);
+}
+
+Node* Tree::getRoot() { return root; }
