@@ -1,33 +1,47 @@
 <div align="center">
-  
-# 🕵️‍♂️ PROJECT: OMERTA 🕵️‍♂️
-### *SYSTEMA DI SUCCESSIONE DELLA MALAVITA*
 
-[![Security-Level](https://img.shields.io/badge/SECURITY-TOP_SECRET-red.svg?style=for-the-badge&logo=probot)](https://)
-[![Language](https://img.shields.io/badge/SOURCE-C%2B%2B-00599C.svg?style=for-the-badge&logo=c%2B%2B)](https://)
-[![Structure](https://img.shields.io/badge/CORE-BINARY_TREE-B70000.svg?style=for-the-badge)](https://)
+# 🍷 PROYECTO: OMERTA (SISTEMA DE SUCESIÓN) 🍷
+### *“El poder no se pide, se hereda por la estructura”*
+
+![Estado](https://img.shields.io/badge/ESTADO-CONFIDENCIAL-red?style=for-the-badge)
+![Lenguaje](https://img.shields.io/badge/LENGUAJE-C%2B%2B-black?style=for-the-badge&logo=c%2B%2B)
+![Estructura](https://img.shields.io/badge/ESTRUCTURA-ARBOL_BINARIO-8b0000?style=for-the-badge)
 
 ---
 
-"El Don no se elige, el Don nace de la estructura."
 </div>
 
-## 📑 DOSSIER DE INTELIGENCIA
-Este prototipo tecnológico ha sido diseñado para resolver crisis de liderazgo en la Familia. El sistema procesa el linaje a través de un **Árbol Binario de Búsqueda Dinámico**, garantizando una transición de poder sin derramamiento de sangre innecesario.
-
-### 👥 AGENTES OPERATIVOS
-| Rango | Nombre | Identificación |
-| :--- | :--- | :--- |
-| **Consigliere** | Angelica Rodriguez | `C.I: 32.220.574` |
-| **Underboss** | Rebecca Saras | `C.I: 32.039.073` |
+## 📑 DOSSIER DEL CLAN (DESARROLLADORES)
+Este sistema de alta seguridad ha sido diseñado por los siguientes operativos:
+* **👤 Angélica Rodríguez** — `C.I: 32.220.574`
+* **👤 Rebecca Saras** — `C.I: 32.039.073`
 
 ---
 
-## 🏗️ ARQUITECTURA DEL SISTEMA (LOGÍSTICA)
-El proyecto ha sido compartimentado para evitar filtraciones de código:
+## 🏗️ ORGANIZACIÓN LOGÍSTICA
+Para cumplir con los protocolos de entrega, el proyecto se divide en:
 
-```ascii
-[RAÍZ DEL PROYECTO]
-   ├── 📂 bin/           <-- "La Bóveda": Ejecutable y family_data.csv
-   ├── 📂 src/           <-- "El Taller": Planos y lógica (.cpp, .hpp)
-   └── 📄 README.md      <-- Este manual de operaciones
+* **📁 bin/**: Contiene el ejecutable `succession_system` y la base de datos `family_data.csv`.
+* **📁 src/**: Contiene exclusivamente el código fuente del proyecto (`.cpp` y `.hpp`).
+
+---
+
+## 📜 PROTOCOLO DE HIERRO (REGLAS DE SUCESIÓN)
+El sistema analiza el árbol genealógico y asigna un nuevo Don automáticamente si el actual fallece, es encarcelado o supera los 70 años:
+
+1. **Fase 1:** Primer sucesor vivo y libre dentro de su propio subárbol.
+2. **Fase 2:** Si no hay directos, se busca en la rama del segundo sucesor del Don.
+3. **Fase 3:** Si todos están marcados, se consideran candidatos en prisión (por cercanía).
+4. **Fase 4:** Búsqueda en jefes aliados con sucesores aptos.
+
+---
+
+## 🚀 INSTRUCCIONES DE OPERACIÓN (COMPILACIÓN)
+
+Para compilar y ejecutar el sistema, asegúrese de estar en el directorio raíz del proyecto y siga estos comandos:
+
+### 🛠️ 1. Compilación
+Use el compilador `g++` para vincular los archivos de `src/` y generar el binario en la carpeta `bin/`:
+
+```bash
+g++ src/*.cpp -o bin/succession_system
