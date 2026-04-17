@@ -7,8 +7,8 @@
 </p>
 
 <p align="justify">
-Facing instability in the selection of the next leader, the Family has developed this technological prototype.
-The system processes the lineage through a <b>Binary Tree</b> (without the use of vectors) to guarantee that the
+Facing instability in the selection of the next leader, the Family has developed this technological prototype. 
+The system processes the lineage through a <b>Binary Tree</b> (without the use of vectors) to guarantee that the 
 succession is maintained under the strictest codes of honor and legal availability.
 </p>
 
@@ -27,11 +27,11 @@ succession is maintained under the strictest codes of honor and legal availabili
 <table>
 <tr>
 <td><b>📁 bin/</b></td>
-<td>Contains the <code>succession_system</code> executable and the <code>family_data.csv</code> file.</td>
+<td>Contains the <code>succession_system</code> executable and the <code>family_data.csv</code> file (required data location).</td>
 </tr>
 <tr>
 <td><b>📁 src/</b></td>
-<td>Contains the full source code (<code>.cpp</code> and <code>.h</code> files).</td>
+<td>Contains the full source code (<code>.cpp</code>, <code>.hpp</code>, and <code>.h</code> files).</td>
 </tr>
 </table>
 
@@ -55,24 +55,10 @@ succession is maintained under the strictest codes of honor and legal availabili
 <hr>
 
 <h3>🚀 OPERATING INSTRUCTIONS</h3>
-<p>To compile and execute the system (ensure you are in the project root):</p>
-<pre>
+<p>To compile and execute the system, ensure you are in the project root directory and follow these commands:</p>
 
-1. Manual Compilation (Generates the binary in the bin folder)
+<h4>1. Compilation</h4>
+<p>Use the <code>g++</code> compiler to link all source files from <code>src/</code> and output the binary to the <code>bin/</code> folder:</p>
+
+```bash
 g++ src/*.cpp -o bin/succession_system
-
-2. Access the bin folder
-cd bin
-
-3. Protocol Execution
-./succession_system
-</pre>
-
-<hr>
-
-<h3>⚠️ COMPLIANCE NOTES</h3>
-<ul>
-<li><b>Commits:</b> Standard format seen in class is maintained (feat/fix/docs).</li>
-<li><b>Memory:</b> Dynamic memory management via pointers (use of the <code>vector</code> library is prohibited).</li>
-<li><b>Persistence:</b> The program remains in continuous execution until the user decides to exit.</li>
-</ul>
